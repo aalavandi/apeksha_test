@@ -16,8 +16,8 @@ from ultralytics import YOLO
 IMAGE_SIZE = 224
 EMBED_DIM = 512
 NUM_CLASSES = 394  # Adjust if needed
-WEIGHTS_PATH = "best_vit_magface_cattle.pth"
-UPLOAD_FOLDER = "uploads"
+WEIGHTS_PATH = "vit_magface_cattle.pth"
+UPLOAD_FOLDER = "uploads1"
 RESULT_FOLDER = "static"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -108,7 +108,7 @@ def compare_and_plot(img1_path, img2_path, output_path):
     axes[1].set_title("Image 2")
     axes[1].axis("off")
 
-    result_text = f"Similarity: {similarity:.4f} — {'✅ Same Cattle' if is_same else '❌ Different Cattle'}"
+    result_text = f"Similarity: {similarity:.4f} — {' Same Cattle' if is_same else ' Different Cattle'}"
     result_color = "green" if is_same else "red"
     plt.suptitle(result_text, fontsize=16, color=result_color)
     plt.tight_layout()
@@ -123,7 +123,7 @@ app = Flask(__name__, static_folder=RESULT_FOLDER)
 CORS(app)
 
 @app.route("/cowface", methods=["POST"])
-def compare():
+def compared():
     if 'img1' not in request.files or 'img2' not in request.files:
         return jsonify({"success": False, "error": "Both images (img1, img2) are required."}), 400
 
@@ -162,7 +162,7 @@ def compare():
             "task_id": task_id,
             "similarity_score": round(similarity, 4),
             "match": is_same,
-            "message": "✅ Same Cattle" if is_same else "❌ Different Cattle",
+            "message": " Same Cattle" if is_same else " Different Cattle",
             "result_image_url": result_img_url
         }), 200 if is_same else 400
 
@@ -174,5 +174,3 @@ def compare():
 # ===============================
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5002, debug=True)
-
-
