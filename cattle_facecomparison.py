@@ -16,9 +16,10 @@ from ultralytics import YOLO
 IMAGE_SIZE = 224
 EMBED_DIM = 512
 NUM_CLASSES = 394  # Adjust if needed
-WEIGHTS_PATH = "vit_magface_cattle.pth"
+
+WEIGHTS_PATH = "best_vit_magface_cattle.pth"
 UPLOAD_FOLDER = "uploads1"
-RESULT_FOLDER = "static"
+RESULT_FOLDER = "static1"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
